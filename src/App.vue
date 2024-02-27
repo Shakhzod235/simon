@@ -25,7 +25,10 @@
               @click="pressBtn(4)"
             ></div>
           </div>
-          <button class="simon-btn">
+          <button
+            class="simon-btn"
+            @click="start"
+          >
             {{ buttonText }}
           </button>
         </div>
@@ -71,9 +74,11 @@
           3: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
           4: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"),
         },
-        orderList: [],
-        userList: [],
+        computerSequence: [],
+        userSequence: [],
         timeoutID: null,
+        time: 1500,
+        inGame: false,
       };
     },
     methods: {
@@ -85,18 +90,69 @@
         }, 100);
         if (this.inGame) {
           clearTimeout(this.timeoutID);
-          this.userList.push(id);
+          this.userSequence.push(id);
+          this.checkUserSequence(this.userSequence.length - 1);
         }
       },
       start() {
-        this.orderList = [];
-        this.userList = [];
+        this.computerSequence = [];
+        this.userSequence = [];
         this.time = this.levelTime[this.level];
+        this.step();
       },
 
       step() {
-        this.userList = [];
+        this.userSequence = [];
+        this.playComputerSequence();
         this.buttonText = "Слушайте";
+      },
+      random() {
+        const num = Math.floor(Math.random() * 4) + 1;
+        return Math.floor(num);
+      },
+      playComputerSequence() {
+        this.inGame = false;
+        this.computerSequence.push(this.random());
+
+        this.computerSequence.forEach((id, i) => {
+          setTimeout(() => {
+            this.pressBtn(id);
+          }, 700 * i);
+        });
+        setTimeout(() => {
+          this.inGame = true;
+          this.buttonText = "Повторите";
+          this.timer();
+        }, this.computerSequence.length * 700);
+      },
+      timer() {
+        this.timeoutID = setTimeout(() => {
+          this.gameOver();
+        }, this.time);
+      },
+      checkUserSequence(item) {
+        if (this.userSequence[item] !== this.computerSequence[item]) {
+          return this.gameOver();
+        }
+        if (this.userSequence.length === this.computerSequence.length) {
+          this.round++;
+          setTimeout(() => {
+            this.step();
+          }, 1000);
+        } else {
+          this.timer();
+        }
+      },
+      gameOver() {
+        this.buttonText = "Game Over";
+        setTimeout(() => {
+          this.buttonText = "Старт";
+        }, 1000);
+        clearTimeout(this.timeoutID);
+        this.round = 0;
+        this.inGame = false;
+        this.userSequence = [];
+        this.computerSequence = [];
       },
     },
   };
