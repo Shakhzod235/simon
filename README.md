@@ -1,5 +1,11 @@
 # simon
 
+## Deploy
+
+```
+https://shakhzod235.github.io/simon/dist/
+```
+
 ## Project setup
 
 ```
