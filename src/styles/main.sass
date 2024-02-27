@@ -1,0 +1,57 @@
+body
+  margin: 0
+  box-sizing: border-box
+  font-family: "Roboto", sans-serif
+
+.container
+  max-width: 1280px
+  margin: 0 auto
+  padding: 0 2rem
+
+.wrapper
+  display: flex
+  justify-content: center
+  align-items: center
+  column-gap: 50px
+
+.simon
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  margin-top: 50px
+  & .simon-board
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-template-rows: 1fr 1fr
+    border: 2px solid rgba(0, 0, 0, 0.7)
+
+  & .simon-card
+    width: 250px
+    height: 250px
+    cursor: pointer
+    opacity: 0.5
+  & .simon-btn
+    position: absolute
+    width: 125px
+    height: 125px
+    cursor: pointer
+    font-size: 1.25rem
+    color: #000
+    border-radius: 50%
+    background-color: #fff
+
+.red
+  background-color: red
+.blue
+  background-color: blue
+.yellow
+  background-color: yellow
+.green
+  background-color: green
+
+.setting
+  display: flex
+  flex-direction: column
+  background-color: #fff
+  font-size: 1rem
